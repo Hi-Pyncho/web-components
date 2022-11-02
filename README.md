@@ -9,6 +9,7 @@
 - [Components](#components)
   - [Select](#select)
   - [Modal](#modal)
+  - [Loader](#loader)
 
 ___
 ## General information
@@ -180,5 +181,32 @@ To style modal close button use `::part(modal-close)`.
     </form>
   </div>
 </p-modal>
+```
+
+
+### Loader
+[Interactive example](https://codepen.io/Pyncho/pen/wvXGJgQ)  
+
+
+[Path to component code](./web-components/p-loader.js)
+
+__Attributes__
+| attribute | description | default value |
+|--|--|--|
+| opened | you can use this attribute to control state of the loader component | false |
+| custom | you can paste your loader html with styles (see the below example) | false |
+
+__Styles__
+| css-property | description | default value |
+|--|--|--|
+| --loader-overlay-color | background color of the overlay | #0000006b |
+| --spiner-color | color of spiner elements | #fff |
+
+```html
+<p-loader custom opened>
+  <div name='custom'>
+    <!-- your loader -->
+  </div>
+</p-loader>
 ```
 
