@@ -26,7 +26,7 @@ customElements.define('p-modal', class extends LitElement {
     const search = name.trim() === '' ? 'slot' : `slot[name='${name}']`
     const slot = this.shadowRoot.querySelector(search)
 
-    return slot.assignedElements({flatten: true})[0]
+    return slot.assignedElements({flatten: true})
   }
 
   render() {
