@@ -133,6 +133,8 @@ ___
 
 ### Select
 [Interactive example](https://codepen.io/Pyncho/pen/xxzwdVm)
+
+
 [Path to component code](./web-components/p-select.js)
 
 ```html
@@ -153,7 +155,9 @@ ___
 
 
 ### Modal
-[Interactive example](https://codepen.io/Pyncho/pen/jOKbmvx)
+[Interactive example](https://codepen.io/Pyncho/pen/jOKbmvx)  
+
+
 [Path to component code](./web-components/p-modal.js)
 
 There is a focus trap in this component for more a11y.
