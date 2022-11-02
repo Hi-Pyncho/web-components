@@ -1,14 +1,14 @@
 # Web components (+[lit](https://lit.dev/) dependency)
 
-- [General information](general-information)
-  - [About components and the dependency](about-components-and-the-dependency)
-  - [How to install dependency](how-to-install-dependency)
-  - [How to use components](how-to-use-components)
-  - [How to style components](how-to-style-components)
-  - [Other information](other-information)
-- [Components](components)
-  - [Select](select)
-  - [Modal](select)
+- [General information](#general-information)
+  - [About components and the dependency](#about-components-and-the-dependency)
+  - [How to install dependency](#how-to-install-dependency)
+  - [How to use components](#how-to-use-components)
+  - [How to style components](#how-to-style-components)
+  - [Other information](#other-information)
+- [Components](#components)
+  - [Select](#select)
+  - [Modal](#modal)
 
 ___
 ## General information
