@@ -34,14 +34,14 @@ customElements.define('p-modal', class extends LitElement {
       right: 0;
       bottom: 0;
       background-color: #00000032;
-      z-index: 100;
+      z-index: 1000;
       
     }
     .modal-container {
       position: relative;
       background-color: #fff;
       padding: 3rem 2rem 2rem;
-      z-index: 101;
+      z-index: 1001;
     }
     .modal-container.noButton {
       padding: 2rem;
