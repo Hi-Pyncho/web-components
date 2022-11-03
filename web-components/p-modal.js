@@ -96,9 +96,17 @@ customElements.define('p-modal', class extends LitElement {
     return slot.assignedElements({flatten: true})
   }
 
+  blockHtml() {
+    document.documentElement.classList.add('p-block')
+  }
+
+  unblockHtml() {
+    document.documentElement.classList.remove('p-block')
+  }
+
   closeModal() {
     this.opened = false
-    this.dispatchEvent(new CustomEvent('closed'))
+    this.unblockHtml()
    
     this.clearState()
     const openModalButton = this.getSlottedByName('openModal')[0]
@@ -161,6 +169,7 @@ customElements.define('p-modal', class extends LitElement {
 
   openModal() {
     this.opened = true
+    this.blockHtml()
 
     this.dispatchEvent(new CustomEvent('opened', {
       detail: this.shadowRoot
