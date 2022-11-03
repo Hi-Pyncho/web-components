@@ -137,7 +137,7 @@ customElements.define('p-select', class extends LitElement {
         <div part='custom-select__list' class='custom-select__list ${this.expanded ? 'custom-select__list--opened' : ''}'>
           ${this.options.map((option, index) => {
             return html`
-              <button part='custom-select__option' class='custom-select__option' @click=${this.handleOptionClick} data-option=${index}>${option.textContent}</button>
+              <button part='custom-select__option' class='custom-select__option' @click=${this.handleOptionClick} data-value='${option.value}' data-option=${index}>${option.textContent}</button>
             `
           })}
         </div>
