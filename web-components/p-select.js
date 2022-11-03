@@ -108,12 +108,13 @@ customElements.define('p-select', class extends LitElement {
   }
 
   handleOptionClick(event) {
-    this.options[event.target.dataset.option].selected = true
-    this.selectedOption = event.target.textContent
+    const option = event.target
+    this.options[option.dataset.option].selected = true
+    this.selectedOption = option.textContent
     this.expanded = false
     
     this.dispatchEvent(new CustomEvent('change', {
-      detail: this.selectedOption.trim()
+      detail: option
     }))
   }
 
