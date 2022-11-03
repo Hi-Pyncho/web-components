@@ -83,7 +83,15 @@ In the web component it looks like this:
 <slot name='modal-header'></slot> <!-- there will be "<div slot='modal-header'>" -->
 <slot></slot> <!-- there will be other no named elements -->
 ```
-For more examples you can explore the code of web components
+For more examples you can explore the code of web components.
+
+Also some web components can trigger custom events. For example, modal component triggers `opened` and `closed` events. You can set listener to the web component and get data from `event.detail`.
+
+```js
+document.querySelector('p-modal').addEventListener('opened', (event) => {
+  console.log(event.detail)
+})
+```
 ___
 ### How to style components
 In the web components you can give an access to contol styles. And there are two main ways to do it.
@@ -154,6 +162,11 @@ ___
 </p-select>
 ```
 
+__Events__
+| event | description | return |
+|--|--|--|
+| change | triggering when a custom option is clicked and chosen | clicked element with data- attributes |
+
 
 ### Modal
 [Interactive example](https://codepen.io/Pyncho/pen/jOKbmvx)  
@@ -163,17 +176,28 @@ ___
 
 There is a focus trap in this component for more a11y.
 
+__Attributes__
 | attribute | description | default value |
 |--|--|--|
 | opened | you can use this attribute to control state of the modal component | false |
 | hideopenbutton | if you don't want display trigger button for opening modal (for example, you add modal dynamically to the page from your code) | false |
 
+__Events__
+| event | description | return |
+|--|--|--|
+| opened | triggering when modal is opened | slotted element named 'modalContent' |
+| closed | triggering when modal is closed | slotted element named 'modalContent' |
+
 To style modal close button use `::part(modal-close)`.
+
 
 ```html
 <p-modal>
   <button slot="openModal">open</button> <!-- your own button to open a modal -->
-  <div slot="modalContent" class="slotted"> <!-- place for the modal content -->
+
+  <!-- place for the modal content -->
+  <!-- set attribute 'hidden' to prevent rendering elements before init web-component -->
+  <div hidden slot="modalContent" class="slotted"> 
     <form>
       <input type="text" name="name">
       <input type="text" name="lastname">
