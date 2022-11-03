@@ -87,6 +87,7 @@ customElements.define('p-modal', class extends LitElement {
     this.focusableElements = []
     this.focusIndex = 0
     this.hideOpenButton = false
+    this.slotModalName = 'modalContent'
   }
 
   getSlottedByName(name = '') {
@@ -107,6 +108,8 @@ customElements.define('p-modal', class extends LitElement {
   closeModal() {
     this.opened = false
     this.unblockHtml()
+
+    this.dispatchEvent(new CustomEvent('closed', { detail: this.getSlottedByName(this.slotModalName) }))
    
     this.clearState()
     const openModalButton = this.getSlottedByName('openModal')[0]
@@ -171,13 +174,10 @@ customElements.define('p-modal', class extends LitElement {
     this.opened = true
     this.blockHtml()
 
-    this.dispatchEvent(new CustomEvent('opened', {
-      detail: this.shadowRoot
-    }))
+    this.dispatchEvent(new CustomEvent('opened', { detail: this.getSlottedByName(this.slotModalName) }))
 
     const closeButton = this.shadowRoot.querySelector('.modal-close')
-    const modalChildren = this.getSlottedByName('modalContent')
-    this.focusableElements = [...modalChildren.querySelectorAll('*')].filter(element => element.tabIndex >= 0)
+    const modalContainer = this.getSlottedByName(this.slotModalName)[0]
 
     this.firstFocusableElement = closeButton
     this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1]
@@ -199,7 +199,7 @@ customElements.define('p-modal', class extends LitElement {
         <div class="modal-container ${this.hideCloseButton ? 'noButton' : ''}"  part='container'>
           <button part='modal-close' class='modal-close' @click=${this.closeModal}></button>
           <slot name='closeModal' @click='${this.closeModal}'></slot>
-          <slot name='modalContent'></slot>
+          <slot name='${this.slotModalName}'></slot>
         </div>
       </div>
     `
