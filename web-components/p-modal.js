@@ -181,6 +181,7 @@ customElements.define('p-modal', class extends LitElement {
 
     modalContainer.hidden = false
 
+    this.focusableElements = [...modalContainer.querySelectorAll('*')].filter(element => element.tabIndex >= 0)
     this.firstFocusableElement = closeButton
     this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1]
     this.focusableElements = [this.firstFocusableElement, ...this.focusableElements]
