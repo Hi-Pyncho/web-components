@@ -162,6 +162,11 @@ ___
 </p-select>
 ```
 
+__Attributes__
+| attribute | description | default value |
+|--|--|--|
+| needsearch | add search field for filtering options | false |
+
 __Events__
 | event | description | return |
 |--|--|--|
