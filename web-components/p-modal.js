@@ -142,16 +142,14 @@ customElements.define('p-modal', class extends LitElement {
       return
     }
 
-    if(!this.lastFocusableElement || !this.firstFocusableElement || this.focusableElements.length === 0) return
-
     switch (true) {
       case event.shiftKey && event.key === 'Tab':
         const prev = this.focusIndex - 1
 
         if(prev < 0) {
-          this.lastFocusableElement.focus()
+          this.lastFocusableElement?.focus()
         } else {
-          this.focusableElements[prev].focus()
+          this.focusableElements[prev]?.focus()
         }
         break;
     
@@ -159,9 +157,9 @@ customElements.define('p-modal', class extends LitElement {
         const next = this.focusIndex + 1
 
         if(next > this.focusableElements.length - 1) {
-          this.firstFocusableElement.focus()
+          this.firstFocusableElement?.focus()
         } else {
-          this.focusableElements[next].focus()
+          this.focusableElements[next]?.focus()
         }
         break;
     }
