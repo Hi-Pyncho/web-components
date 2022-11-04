@@ -4,13 +4,23 @@ customElements.define('p-select', class extends LitElement {
   static properties = {
     selectedOption: String,
     expanded: Boolean,
+    needSearch: {
+      type: Boolean,
+      reflect: true
+    },
+    searchValue: String
   }
+
+  searchField = html`<input @input=${this.handleSearchInput} value='${this.searchValue}' class='custom-select__search' type="text" placeholder='search...' />`
 
   constructor() {
     super()
     this.selectedOption = ''
     this.expanded = false
     this.options = []
+    this.searchingOptions = this.options
+    this.needSearch = false
+    this.searchValue = ''
   }
   
   static styles = css`
@@ -51,6 +61,12 @@ customElements.define('p-select', class extends LitElement {
       border-radius: .3em;
       font-size: 1rem;
       line-height: 1;
+    }
+    .custom-select__search {
+      padding: 1rem;
+      width: 100%;
+      border: 1px solid rgb(238, 238, 238);
+      font-size: 1rem;
     }
     .custom-select__option {
       border: none;
@@ -98,11 +114,26 @@ customElements.define('p-select', class extends LitElement {
     return slot.assignedElements({flatten: true})
   }
 
+  handleSearchInput(event) {
+    const input = event.target
+ 
+    this.searchValue = input.value
+
+    if(this.searchValue.trim() === '') {
+      this.searchingOptions = this.options
+      return
+    }
+
+    this.searchingOptions = this.options.filter(option => option.textContent.includes(this.searchValue))
+    this.requestUpdate()
+  }
+
   firstUpdated() {
     const slottedSelect = this.getSlottedByName()[0]
     slottedSelect.tabIndex = '-1'
 
     this.options = [...slottedSelect.querySelectorAll('option')]
+    this.searchingOptions = this.options
     this.selectedOption = this.options[0].textContent
     this.requestUpdate()
   }
@@ -120,6 +151,11 @@ customElements.define('p-select', class extends LitElement {
 
   handleTrigger() {
     this.expanded = !this.expanded
+    const searchInput = this.shadowRoot.querySelector('.custom-select__search')
+    
+    if(this.expanded && searchInput) {
+      searchInput.focus()
+    }
   }
 
   render() {
@@ -134,8 +170,10 @@ customElements.define('p-select', class extends LitElement {
           </svg>
         </button>
         
+        
         <div part='custom-select__list' class='custom-select__list ${this.expanded ? 'custom-select__list--opened' : ''}'>
-          ${this.options.map((option, index) => {
+          ${this.needSearch ? this.searchField : ''}
+          ${this.searchingOptions.map((option, index) => {
             return html`
               <button part='custom-select__option' class='custom-select__option' @click=${this.handleOptionClick} data-value='${option.value}' data-option=${index}>${option.textContent}</button>
             `
