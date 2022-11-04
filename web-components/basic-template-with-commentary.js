@@ -29,6 +29,23 @@ customElements.define('p-modal', class extends LitElement {
     return slot.assignedElements({flatten: true})
   }
 
+  // Invoked when a component is added to the document's DOM
+  connectedCallback() {
+    super.connectedCallback()
+    // code...
+  }
+
+  // Invoked when a component is removed from the document's DOM
+  disconnectedcallback() {
+    super.disconnectedcallback()
+    // code...
+  }
+
+  // Called after the component's DOM has been updated the first time
+  firstupdated() {
+    // code...
+  }
+
   render() {
     return html`
       <!-- 
