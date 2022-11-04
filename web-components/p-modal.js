@@ -139,7 +139,10 @@ customElements.define('p-modal', class extends LitElement {
 
     if(event.key === 'Escape') {
       this.closeModal()
+      return
     }
+
+    if(!this.lastFocusableElement || !this.firstFocusableElement || this.focusableElements.length === 0) return
 
     switch (true) {
       case event.shiftKey && event.key === 'Tab':
