@@ -12,24 +12,24 @@
   - [Loader](#loader)
 
 ___
+
+
 ## General information
 ___
 
 ### About components and the dependency
-i can't use frameworks (like React or Vue) on every project, so i started creating these components. This way is more flexible and convenient for me, because i have not always opportunity to use Node.js and building projects in module bundlers (like __Webpack__). There are a lot of small buisinesses that use `php` or other server programming languages. And there is less entry threshold in using native web components, then in frontend frameworks.
+I could not use frameworks (like React or Vue) on every project, so I started creating these components. This way it is more flexible and convenient for me, because I don't have an opportunity to always use Node.js and to build projects in module bundlers (like __Webpack__). There are a lot of small buisinesses that use `php` or other server programming languages. And there is less entry threshold in using native web components, than in frontend frameworks.
 
-Also i tried to create accessible components. And if a browser don't support web-component, a browser will display the element you insert.
+To make web-components more comfortable, I used the [lit library](https://lit.dev/). It adds some syntactic sugar to skip the boilerplate and other useful features on top of standard web-components. You don't need to build or compile code. It is progressive enhancement and already ready to use.
 
-To make and use web-components more comfortable, i used the [lit library](https://lit.dev/). It adds some  syntactic sugar to skip the boilerplate and other useful features on top of standard web-components. You no need to build or compile code. It is progressive enhancement and already ready to use.
-
-There is no minify version. I use these components for my work and i want keep it in a readable state. You can minify files in your project if you want.
+There is no minify version. I use these components for my work and I want keep it in a readable state. You can minify files in your project if you want.
 
 ### How to install dependency
 
-There are  two ways to install and use these components:
+There are two ways to install and use these components:
 
 #### First way
-In html document declare script tag with `importmap` type. And after that paste script with components.
+In html document declare script tag with the `importmap` type. And after that paste the script with components.
 _In html file_
 ```html
 <script type="importmap">
@@ -61,12 +61,12 @@ import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core
 
 ___
 ### How to use components
-Generally web component consist of three elements:
+Generally web component consists of three elements:
 1) component tag (`<my-modal></my-modal>`)
 2) attributes (to control modal: `<my-modal opened></my-modal>`)
 3) entries (pasted into `<slot>...elements</slot>` element);
 
-Here are an example:
+There is an example:
 ```html
 <my-modal opened>
   <div slot='modal-header'>
@@ -77,7 +77,7 @@ Here are an example:
   </div>
 </my-modal>
 ```
-In this example i use `slot` attribute to place element to certain place in the web component
+In this example I use the `slot` attribute to place an element to a certain place in the web component
 In the web component it looks like this:
 ```html
 <slot name='modal-header'></slot> <!-- there will be "<div slot='modal-header'>" -->
@@ -85,7 +85,7 @@ In the web component it looks like this:
 ```
 For more examples you can explore the code of web components.
 
-Also some web components can trigger custom events. For example, modal component triggers `opened` and `closed` events. You can set listener to the web component and get data from `event.detail`.
+Also some web components can trigger custom events. For example, a modal component triggers `opened` and `closed` events. You can set a listener to the web component and get data from `event.detail`.
 
 ```js
 document.querySelector('p-modal').addEventListener('opened', (event) => {
@@ -96,7 +96,7 @@ ___
 ### How to style components
 In the web components you can give an access to contol styles. And there are two main ways to do it.
 1) use global css custom properties inside the web component
-2) declare in web component `part` attribute and style it from css using `::part()` function
+2) declare in a web component `part` attribute and style it from css using `::part()` function
 
 Examples:
 
@@ -126,6 +126,31 @@ _Global styles_
 }
 ```
 
+__Important!__
+When page is loading and js file with web component code have not executed yet, you will face to FOAC (flash of unstyled content). And for a moment you will see usual html inside web-component. Here is an example:
+```html
+<p-select>
+  <select>
+    <option value="first">
+      first option
+    </option>
+    <option value="second">
+      second option
+    </option>
+    <option value="third">
+      third option
+    </option>
+  </select>
+</p-select>
+```
+In this example a browser starts rendering usual select. And when js code executes, select will be replaced by stylized web-component. Try it and you will see.
+To avoid it, you should add these lines to css:
+```css
+:not(:defined) {
+  opacity: 0;
+}
+```
+Instead the `opacity` property you can use another way to hide an element. It will select all undefined web components on the page and hide them until web components initialize.
 
 ___
 ### Other information
@@ -185,13 +210,13 @@ __Attributes__
 | attribute | description | default value |
 |--|--|--|
 | opened | you can use this attribute to control state of the modal component | false |
-| hideopenbutton | if you don't want display trigger button for opening modal (for example, you add modal dynamically to the page from your code) | false |
+| hideopenbutton | if you don't want display trigger button (for example, you add modal dynamically to the page from your code) | false |
 
 __Events__
 | event | description | return |
 |--|--|--|
-| opened | triggering when modal is opened | slotted element named 'modalContent' |
-| closed | triggering when modal is closed | slotted element named 'modalContent' |
+| opened | triggering when a modal is opened | slotted element named 'modalContent' |
+| closed | triggering when a modal is closed | slotted element named 'modalContent' |
 
 To style modal close button use `::part(modal-close)`.
 
