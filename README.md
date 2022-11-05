@@ -221,7 +221,7 @@ __Events__
 
 __Parts__
 | part | description |
-|--|--|--|
+|--|--|
 | ::part(modal-close) | to style a modal close button |
 
 ```html
@@ -280,15 +280,32 @@ __Attributes__
 
 __Parts__
 | part | description |
-|--|--|--|
+|--|--|
 | ::part(p-trigger) | to style trigger buttons |
 | ::part(p-content) | to style content parts |
 
 ```html
-<p-loader custom opened>
-  <div name='custom'>
-    <!-- your loader -->
+<p-accordion nocollapse>
+  <div slot="list">
+    <button p-trigger>
+      Lorem, ipsum dolor.
+    </button>
+      <div p-content>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non delectus, quidem dolores veniam eveniet rerum a dolorum vero explicabo? Rerum eligendi asperiores ducimus iure velit! Ratione quas dolor amet facilis?
+      </div>
+    <button p-trigger>
+      Lorem, ipsum dolor.
+    </button>
+      <div p-content>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non delectus, quidem dolores veniam eveniet rerum a dolorum vero explicabo? Rerum eligendi asperiores ducimus iure velit! Ratione quas dolor amet facilis?
+      </div>
+    <button p-trigger>
+      Lorem, ipsum dolor.
+    </button>
+      <div p-content>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non delectus, quidem dolores veniam eveniet rerum a dolorum vero explicabo? Rerum eligendi asperiores ducimus iure velit! Ratione quas dolor amet facilis?
+      </div>
   </div>
-</p-loader>
+</p-accordion>
 ```
 
