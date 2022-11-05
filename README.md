@@ -11,6 +11,7 @@
   - [Modal](#modal)
   - [Loader](#loader)
   - [Accordion](#accordion)
+  - [Tabs](#tabs)
 
 ___
 
@@ -309,3 +310,45 @@ __Parts__
 </p-accordion>
 ```
 
+### Tabs
+[Interactive example](https://codepen.io/Pyncho/pen/wvXzWRe)  
+
+
+[Path to component code](./web-components/p-tabs.js)
+
+__Parts__
+| part | description |
+|--|--|
+| ::part(p-trigger) | to style trigger buttons |
+| ::part(p-content) | to style content parts |
+
+__Styles__
+| css-property | description | default value |
+|--|--|--|
+| --custom-main-color | background color of triggers and content | #eee |
+| --custom-padding | padding of triggers and content | 1rem |
+
+```html
+<p-tabs>
+  <div slot="list">
+    <button p-trigger>
+      <!-- tab title -->
+    </button>
+    <div p-content>
+      <!-- tab content -->
+    </div>
+    <button p-trigger>
+      <!-- tab title -->
+    </button>
+    <div p-content>
+      <!-- tab content -->
+    </div>
+    <button p-trigger>
+      <!-- tab title -->
+    </button>
+    <div p-content>
+      <!-- tab content -->
+    </div>
+  </div>
+</p-tabs>
+```
