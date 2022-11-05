@@ -10,6 +10,7 @@
   - [Select](#select)
   - [Modal](#modal)
   - [Loader](#loader)
+  - [Accordion](#accordion)
 
 ___
 
@@ -218,8 +219,10 @@ __Events__
 | opened | triggering when a modal is opened | slotted element named 'modalContent' |
 | closed | triggering when a modal is closed | slotted element named 'modalContent' |
 
-To style modal close button use `::part(modal-close)`.
-
+__Parts__
+| part | description |
+|--|--|--|
+| ::part(modal-close) | to style a modal close button |
 
 ```html
 <p-modal>
@@ -255,6 +258,31 @@ __Styles__
 |--|--|--|
 | --loader-overlay-color | background color of the overlay | #0000006b |
 | --spiner-color | color of spiner elements | #fff |
+
+```html
+<p-loader custom opened>
+  <div name='custom'>
+    <!-- your loader -->
+  </div>
+</p-loader>
+```
+
+### Accordion
+[Interactive example](https://codepen.io/Pyncho/pen/poKEzyJ)  
+
+
+[Path to component code](./web-components/p-accordion.js)
+
+__Attributes__
+| attribute | description | default value |
+|--|--|--|
+| nocollapse | prevent closing all accordion elements, when one element is chosen | false |
+
+__Parts__
+| part | description |
+|--|--|--|
+| ::part(p-trigger) | to style trigger buttons |
+| ::part(p-content) | to style content parts |
 
 ```html
 <p-loader custom opened>
