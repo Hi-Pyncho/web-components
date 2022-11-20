@@ -42,7 +42,7 @@ customElements.define('p-modal', class extends LitElement {
   }
 
   // Called after the component's DOM has been updated the first time
-  firstupdated() {
+  firstUpdated() {
     // code...
   }
 

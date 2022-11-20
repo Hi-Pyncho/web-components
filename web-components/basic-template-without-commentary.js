@@ -28,7 +28,7 @@ customElements.define('p-modal', class extends LitElement {
     // code...
   }
 
-  firstupdated() {
+  firstUpdated() {
     // code...
   }
 
