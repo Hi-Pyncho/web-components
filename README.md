@@ -12,6 +12,7 @@
   - [Loader](#loader)
   - [Accordion](#accordion)
   - [Tabs](#tabs)
+  - [Form](#form)
 
 ___
 
@@ -351,4 +352,89 @@ __Styles__
     </div>
   </div>
 </p-tabs>
+```
+
+### Form
+[Interactive example](https://codepen.io/Pyncho/pen/zYapzRm)  
+
+
+[Path to component code](./web-components/p-form.js)
+
+This component without any styling. It just a wrapper for a form. Needs to create a simple validation.
+
+__Attributes (main tag)__
+| attribute | description | default value |
+|--|--|--|
+| successtext (__required__) | text that will appear when the form will be successfully validated and send data to the server | '' |
+| failtext (__required__) | text that will appear when the form will not send data to the server | '' |
+| backendhandler (__required__) | path to form handler on the server | '' |
+| beforesendcallback (__optional__) | custom callback to additionally validate form before data will be sended to the server (callback must return `false` or `true` and `IMPORTANT` - this function must be available globally from `window` object) | '' |
+
+__Attributes (field tag) - all required__
+| attribute | description |
+|--|--|
+| data-validate | it needs if you want to validate a field |
+| [data-type](#validation-types) | types to validate a field value in different way |
+| data-errormessage | the message that set to a parent `label` tag property `data-error` (see examples link above how to stylize it)  |
+
+#### Validation types:
+- `text` (check if a field value is empty)
+- `tel` (check if a phone value is numbers and consists of 11 numbers)
+- `email` (check if a email value fits the pattern)
+- `checkbox` (check if a checkbox is checked)
+
+`IMPORTANT!` - any input field must be wrapped by `label` tag to validate fields properly.
+
+```html
+ <p-form 
+    successtext="Everything is fine" 
+    failtext="We have a dangerous situation here" 
+    beforesendcallback="validationCallback" 
+    backendhandler="/path/to/handler.php"
+  >
+    <form>
+      <label>
+        <span>Name</span>
+        <input 
+          name="firstname" 
+          data-validate 
+          data-type="text" 
+          data-errormessage="field should not be emtpy" 
+          type="text"
+        >
+      </label>
+      <label>
+        <span>Phone</span>
+        <input 
+          name="phone" 
+          data-validate 
+          data-type="tel" 
+          data-errormessage="phone is incorrect" 
+          type="text"
+        >
+      </label>
+      <label>
+        <span>Email</span>
+        <input 
+          name="email" 
+          data-validate 
+          data-type="email" 
+          data-errormessage="email is incorrect" 
+          type="email"
+        >
+      </label>
+      <label>
+        <input 
+          name="agree" 
+          data-validate 
+          data-type="checkbox" 
+          data-errormessage="email is incorrect" 
+          type="checkbox"
+        >
+        <span>Please, agree with our policy</span>
+      </label>
+     
+      <input type="submit" value="confirm">
+    </form>
+  </p-form>
 ```
