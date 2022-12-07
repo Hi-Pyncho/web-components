@@ -109,6 +109,12 @@ customElements.define('p-modal', class extends LitElement {
     this.opened = false
     this.unblockHtml()
 
+    if(this.prevSibling) {
+      this.prevSibling.after(this)
+    } else {
+      this.parent.append(this)
+    }
+
     this.dispatchEvent(new CustomEvent('closed', { detail: this.getSlottedByName(this.slotModalName) }))
    
     this.clearState()
@@ -174,6 +180,11 @@ customElements.define('p-modal', class extends LitElement {
   openModal() {
     this.opened = true
     this.blockHtml()
+
+    this.prevSibling = this.previousElementSibling
+    this.parent = this.parentElement
+
+    document.body.append(this)
 
     this.dispatchEvent(new CustomEvent('opened', { detail: this.getSlottedByName(this.slotModalName) }))
 
