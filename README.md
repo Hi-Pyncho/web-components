@@ -317,6 +317,11 @@ __Parts__
 
 [Path to component code](./web-components/p-tabs.js)
 
+__Attributes (main tag)__
+| attribute | description | default value |
+|--|--|--|
+| nostyle | remove default styles and add an opportunity to style tabs by own | false |
+
 __Parts__
 | part | description |
 |--|--|

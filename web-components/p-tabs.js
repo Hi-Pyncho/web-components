@@ -1,6 +1,12 @@
 import {LitElement, html, css} from 'lit';
 
 customElements.define('p-tabs', class extends LitElement {
+  static properties = {
+    noStyle: {
+      type: Boolean,
+      reflect: true
+    }
+  }
   static styles = css`
     :host {
       width: 100%;
@@ -46,6 +52,7 @@ customElements.define('p-tabs', class extends LitElement {
   constructor() {
     super()
     this.tabMap = new Map()
+    this.noStyle = false
   }
 
   setupTriggersAttributes() {
@@ -111,7 +118,11 @@ customElements.define('p-tabs', class extends LitElement {
     this.wrapTriggers()
     this.wrapContents()
     
-    this.shadowRoot.append(this.tabsList)
+    if(this.noStyle) {
+      this.append(this.tabsList)
+    } else {
+      this.shadowRoot.append(this.tabsList)
+    }
   }
 
   setShow(element) {
