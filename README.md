@@ -200,6 +200,16 @@ __Events__
 |--|--|--|
 | change | triggering when a custom option is clicked and chosen | clicked element with data- attributes |
 
+__Styles__
+| css-property | description | default value |
+|--|--|--|
+| --border-color | border color of list, options and search | #eee |
+| --hover-color | background-color when option is hovered | #eee |
+| --arrow-color | background-color when option is hovered | #000 |
+| --element-padding | padding of a trigger, a search field and options | 1rem |
+| --font-size | font size of all elements | 1rem |
+| --top-list-offset | top list offset from top of a trigger element | 3rem |
+
 
 ### Modal
 [Interactive example](https://codepen.io/Pyncho/pen/jOKbmvx)  

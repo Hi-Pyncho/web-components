@@ -25,7 +25,7 @@ customElements.define('p-select', class extends LitElement {
   
   static styles = css`
     .custom-select {
-      --row-height: 3rem;
+      --row-height: var(--top-list-offset, 3rem);
       position: relative;
     }
     .custom-select * {
@@ -43,7 +43,7 @@ customElements.define('p-select', class extends LitElement {
       opacity: 0;
       width: 100%;
       pointer-events: none;
-      border: 1px solid #eee;
+      border: 1px solid var(--border-color, #eee);
       border-radius: .3em;
     }
     .custom-select__list--opened {
@@ -52,28 +52,28 @@ customElements.define('p-select', class extends LitElement {
     }
     .custom-select__trigger,
     .custom-select__option {
-      --padding: 1rem;
+      --padding: var(--element-padding, 1rem);
       position: relative;
       display: block;
-      border: 1px solid #eee;
+      border: 1px solid var(--border-color, #eee);
       width: 100%;
       padding: var(--padding);
       border-radius: .3em;
-      font-size: 1rem;
+      font-size: var(--font-size, 1rem);
       line-height: 1;
     }
     .custom-select__search {
-      padding: 1rem;
+      padding: var(--element-padding, 1rem);
       width: 100%;
-      border: 1px solid rgb(238, 238, 238);
-      font-size: 1rem;
+      border: 1px solid var(--border-color, #eee);
+      font-size: var(--font-size, 1rem);
     }
     .custom-select__option {
       border: none;
       transition: background-color .1s ease-in-out;
     }
     .custom-select__option:hover {
-      background-color: #eee;
+      background-color: var(--hover-color, #eee);
       transition: background-color .1s ease-in-out;
     }
     .custom-select__trigger {
@@ -166,7 +166,7 @@ customElements.define('p-select', class extends LitElement {
         <button part='custom-select__trigger' @click=${this.handleTrigger} class='custom-select__trigger ${this.expanded ? 'custom-select__trigger--opened' : ''}'>
           ${this.selectedOption}
           <svg part='custom-select__arrow' width="100%" height="100%" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M5 8.33337L10 13.3334L15 8.33337" stroke="#924702" stroke-linecap="round"/>
+            <path d="M5 8.33337L10 13.3334L15 8.33337" stroke="var(--arrow-color, #000)" stroke-linecap="round"/>
           </svg>
         </button>
         
