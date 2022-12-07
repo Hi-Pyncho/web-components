@@ -153,7 +153,7 @@ class Form {
     event.preventDefault()
 
     const isFormValid = this.validateAllInputs()
-    const cbResult = window[this.beforeSendCallback](this.form)
+    const cbResult = window[this.beforeSendCallback] ? window[this.beforeSendCallback](this.form) : true
     
     if(!isFormValid || !cbResult) return
 
