@@ -218,6 +218,7 @@ __Styles__
 [Path to component code](./web-components/p-modal.js)
 
 There is a focus trap in this component for more a11y.
+The modal adds to the root html element class `p-block` after opening. You can add blocking styles to your css code if you want. Like `html.p-block { overflow: hidden }`.
 
 __Attributes__
 | attribute | description | default value |
