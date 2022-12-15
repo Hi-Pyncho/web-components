@@ -290,6 +290,7 @@ __Attributes__
 | attribute | description | default value |
 |--|--|--|
 | nocollapse | prevent closing all accordion elements, when one element is chosen | false |
+| nostyle | remove default styles and add an opportunity to style tabs by own | false |
 
 __Parts__
 | part | description |

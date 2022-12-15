@@ -6,12 +6,13 @@ customElements.define('p-accordion', class extends LitElement {
       type: Boolean, 
       reflect: true
     },
+    noStyle: {
+      type: Boolean, 
+      reflect: true
+    },
   }
 
   static styles = css`
-    :host([property]) {} 
-    ::slotted(selector) {}
-    
     :host {
       width: 100%;
       --padding: 1rem;
@@ -53,7 +54,7 @@ customElements.define('p-accordion', class extends LitElement {
       width: var(--arrow-size);
       height: var(--arrow-size);
     }
-    [p-trigger].show::before {
+    [p-trigger].p-show::before {
       content: '';
       position: absolute;
       bottom: 0;
@@ -63,10 +64,10 @@ customElements.define('p-accordion', class extends LitElement {
       height: 1px;
       background-color: #000;
     }
-    [p-trigger].show::after {
+    [p-trigger].p-show::after {
       transform: translateY(-50%) rotate(180deg);
     }
-    [p-trigger].show {
+    [p-trigger].p-show {
       background-color: #eee;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
@@ -76,11 +77,14 @@ customElements.define('p-accordion', class extends LitElement {
   constructor() {
     super()
     this.noCollapse = false
+    this.noStyle = false
   }
 
   firstUpdated() {
     this.accordionList = this.getSlottedByName('list')[0]
-    this.shadowRoot.append(this.accordionList)
+    if(!this.noStyle) {
+      this.shadowRoot.append(this.accordionList)
+    }
     this.accordionList.addEventListener('click', this.accordionClickHandler)
     this.accordionList.setAttribute('aria-label', 'Accordion Control Group Buttons')
     this.triggers = this.accordionList.querySelectorAll('[p-trigger]')
@@ -104,12 +108,12 @@ customElements.define('p-accordion', class extends LitElement {
     if(!this.noCollapse) {
       this.triggers.forEach(trigger => {
         if(trigger === this.lastClicked) return
-        trigger.classList.remove('show')
+        trigger.classList.remove('p-show')
         trigger.setAttribute('aria-expanded', false)
       })
     }
 
-    target.classList.toggle('show')
+    target.classList.toggle('p-show')
     target.setAttribute('aria-expanded', target.getAttribute('aria-expanded') === 'false' ? true : false)
   }
 
@@ -122,7 +126,7 @@ customElements.define('p-accordion', class extends LitElement {
 
   render() {
     return html`
-      <slot name='list'></slot>
+      <slot class='styled' name='list'></slot>
     `
   }
 })
