@@ -38,7 +38,7 @@ _In html file_
 <script type="importmap">
   {
     "imports": {
-      "mylib": "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js"
+      "lit": "https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js"
     }
   }
 </script>
