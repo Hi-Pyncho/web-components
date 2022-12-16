@@ -5,6 +5,10 @@ customElements.define('p-tabs', class extends LitElement {
     noStyle: {
       type: Boolean,
       reflect: true
+    },
+    accordionOnMobile: {
+      type: Boolean,
+      reflect: true
     }
   }
   static styles = css`
@@ -53,6 +57,7 @@ customElements.define('p-tabs', class extends LitElement {
     super()
     this.tabMap = new Map()
     this.noStyle = false
+    this.accordionOnMobile = false
   }
 
   setupTriggersAttributes() {
@@ -81,18 +86,24 @@ customElements.define('p-tabs', class extends LitElement {
   }
 
   wrapTriggers() {
-    const triggersContainer = document.createElement('div')
-    triggersContainer.setAttribute('part', 'p-trigger-container')
-    triggersContainer.classList.add('p-tabs__trigger-list')
-    triggersContainer.append(...this.triggers)
-    this.tabsList.append(triggersContainer)
+    this.triggersContainer = document.createElement('div')
+    this.triggersContainer.setAttribute('part', 'p-trigger-container')
+    this.triggersContainer.classList.add('p-tabs__trigger-list')
+    this.triggersContainer.append(...this.triggers)
+    this.tabsList.append(this.triggersContainer)
   }
 
   wrapContents() {
-    const contentsContainer = document.createElement('div')
-    contentsContainer.setAttribute('part', 'p-contents-container')
-    contentsContainer.append(...this.contents)
-    this.tabsList.append(contentsContainer)
+    this.contentsContainer = document.createElement('div')
+    this.contentsContainer.setAttribute('part', 'p-contents-container')
+    this.contentsContainer.append(...this.contents)
+    this.tabsList.append(this.contentsContainer)
+  }
+
+  transformToTabs() {
+    this.wrapTriggers()
+    this.wrapContents()
+    this.elementState = 'tabs'
   }
 
   setupFirstState() {
@@ -101,7 +112,29 @@ customElements.define('p-tabs', class extends LitElement {
     this.triggers[0].setAttribute('aria-selected', true)
   }
 
+  detectElementState() {
+    if(window.matchMedia('(max-width: 480px)')) {
+      this.elementState = 'accordion'
+    } else {
+      this.elementState = 'tabs'
+    }
+  }
+
+  setTransformLogic() {
+    switch (this.elementState) {
+      case 'tabs':
+        this.transformToTabs()
+        break;
+      case 'accordion':
+        this.transformToAccordion()
+        break;
+    }
+
+    this.listenResize()
+  }
+
   firstUpdated() {
+    this.detectElementState()
     this.tabsList = this.getSlottedByName('list')[0]
     this.tabsList.setAttribute('aria-label', 'Accordion Control Group Buttons')
     this.tabsList.addEventListener('click', this.handleClickTab)
@@ -115,14 +148,42 @@ customElements.define('p-tabs', class extends LitElement {
 
     this.setupFirstState()
 
-    this.wrapTriggers()
-    this.wrapContents()
-    
+    if(this.accordionOnMobile) {
+      this.setTransformLogic()
+    } else {
+      this.transformToTabs()
+    }
+   
     if(this.noStyle) {
       this.append(this.tabsList)
     } else {
       this.shadowRoot.append(this.tabsList)
     }
+  }
+
+  listenResize() {
+    window.addEventListener('resize', () => {
+      if(window.outerWidth > 480 && this.elementState === 'accordion') {
+        this.transformToTabs()
+        return
+      }
+
+      if(window.outerWidth <= 480 && this.elementState === 'tabs') {
+        this.transformToAccordion()
+        return
+      }
+    })
+  }
+
+  transformToAccordion() {
+    this.triggers.forEach((trigger, index) => {
+      this.tabsList.append(trigger)
+      this.tabsList.append(this.contents[index])
+    })
+
+    this.triggersContainer?.remove()
+    this.contentsContainer?.remove()
+    this.elementState = 'accordion'
   }
 
   setShow(element) {
