@@ -333,7 +333,8 @@ __Attributes (main tag)__
 | attribute | description | default value |
 |--|--|--|
 | nostyle | remove default styles and add an opportunity to style tabs by own | false |
-| accordiononmobile | change tabs to accordion on mobile screen size (<=480px) | false |
+| accordiononmobile | change tabs to accordion on mobile screen size (mobilemedia attribute) | false |
+| mobilemedia | set mobile media size for transforming tabs to accordion | 480 |
 
 __Parts__
 | part | description |

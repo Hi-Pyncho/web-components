@@ -9,6 +9,10 @@ customElements.define('p-tabs', class extends LitElement {
     accordionOnMobile: {
       type: Boolean,
       reflect: true
+    },
+    mobileMedia: {
+      type: Number,
+      reflect: true
     }
   }
   static styles = css`
@@ -58,6 +62,7 @@ customElements.define('p-tabs', class extends LitElement {
     this.tabMap = new Map()
     this.noStyle = false
     this.accordionOnMobile = false
+    this.mobileMedia = 480
   }
 
   setupTriggersAttributes() {
@@ -113,7 +118,7 @@ customElements.define('p-tabs', class extends LitElement {
   }
 
   detectElementState() {
-    if(window.matchMedia('(max-width: 480px)')) {
+    if(window.matchMedia(`(max-width: ${this.mobileMedia}px)`).matches) {
       this.elementState = 'accordion'
     } else {
       this.elementState = 'tabs'
@@ -163,12 +168,12 @@ customElements.define('p-tabs', class extends LitElement {
 
   listenResize() {
     window.addEventListener('resize', () => {
-      if(window.outerWidth > 480 && this.elementState === 'accordion') {
+      if(window.outerWidth > this.mobileMedia && this.elementState === 'accordion') {
         this.transformToTabs()
         return
       }
 
-      if(window.outerWidth <= 480 && this.elementState === 'tabs') {
+      if(window.outerWidth <= this.mobileMedia && this.elementState === 'tabs') {
         this.transformToAccordion()
         return
       }
