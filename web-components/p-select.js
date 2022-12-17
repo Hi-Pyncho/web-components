@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit';
+// DOCS: https://github.com/Hi-Pyncho/web-components#select
 
 customElements.define('p-select', class extends LitElement {
   static properties = {

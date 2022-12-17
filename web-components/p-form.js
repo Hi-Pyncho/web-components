@@ -1,4 +1,5 @@
 import {LitElement, html} from 'lit';
+// DOCS: https://github.com/Hi-Pyncho/web-components#form
 
 class Validator {
   constructor(prefix = '') {

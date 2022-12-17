@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit';
+// DOCS: https://github.com/Hi-Pyncho/web-components#accordion
 
 customElements.define('p-accordion', class extends LitElement {
   static properties = { 
