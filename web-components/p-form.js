@@ -1,4 +1,4 @@
-import {LitElement, html} from 'lit';
+import {LitElement, html} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 // DOCS: https://github.com/Hi-Pyncho/web-components#form
 
 class Validator {

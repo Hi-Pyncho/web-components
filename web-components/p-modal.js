@@ -1,4 +1,4 @@
-import {LitElement, html, css} from 'lit';
+import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
 // DOCS: https://github.com/Hi-Pyncho/web-components#modal
 
 customElements.define('p-modal', class extends LitElement {
