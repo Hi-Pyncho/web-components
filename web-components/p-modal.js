@@ -43,6 +43,7 @@ customElements.define('p-modal', class extends LitElement {
       background-color: #fff;
       padding: 3rem 2rem 2rem;
       z-index: 1001;
+      max-height: 90vh;
     }
     .modal-container.noButton {
       padding: 2rem;
@@ -98,6 +99,11 @@ customElements.define('p-modal', class extends LitElement {
     return slot.assignedElements({flatten: true})
   }
 
+  firstUpdated() {
+    this.prevSibling = this.previousElementSibling
+    this.parent = this.parentElement
+  }
+
   blockHtml() {
     document.documentElement.classList.add('p-block')
   }
@@ -109,12 +115,7 @@ customElements.define('p-modal', class extends LitElement {
   closeModal() {
     this.opened = false
     this.unblockHtml()
-
-    if(this.prevSibling) {
-      this.prevSibling.after(this)
-    } else {
-      this.parent.append(this)
-    }
+    this.cloneModal.replaceWith(this)
 
     this.dispatchEvent(new CustomEvent('closed', { detail: this.getSlottedByName(this.slotModalName) }))
    
@@ -182,11 +183,6 @@ customElements.define('p-modal', class extends LitElement {
     this.opened = true
     this.blockHtml()
 
-    this.prevSibling = this.previousElementSibling
-    this.parent = this.parentElement
-
-    document.body.append(this)
-
     this.dispatchEvent(new CustomEvent('opened', { detail: this.getSlottedByName(this.slotModalName) }))
 
     const closeButton = this.shadowRoot.querySelector('.modal-close')
@@ -203,6 +199,16 @@ customElements.define('p-modal', class extends LitElement {
     })
 
     this.addEventListener('keydown', this.isolateFocus)
+
+    this.cloneModal = this.cloneNode(true)
+
+    if(this.prevSibling) {
+      this.prevSibling.after(this.cloneModal)
+    } else {
+      this.parent.append(this.cloneModal)
+    }
+
+    document.body.append(this)
   }
 
   render() {
