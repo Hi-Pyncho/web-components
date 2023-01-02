@@ -2,19 +2,6 @@ import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core
 // DOCS: https://github.com/Hi-Pyncho/web-components#modal
 
 customElements.define('p-modal', class extends LitElement {
-  static properties = {
-    opened: {
-      type: Boolean,
-      reflect: true
-    },
-    hideOpenButton: {
-      type: Boolean,
-      reflect: true
-    },
-  }
-
-  openButton = html`<slot @click='${this.openModal}' name='openModal'></slot>`
-
   static styles = css`
     .modal-wrapper {
       position: fixed;
@@ -23,12 +10,12 @@ customElements.define('p-modal', class extends LitElement {
       right: 0;
       bottom: 0;
       display: none;
-    }
-    :host([opened]) .modal-wrapper {
-      display: grid;
       place-items: center;
     }
-    :host([opened]) .modal-overlay {
+    .modal-wrapper--opened {
+      display: grid;
+    }
+    .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -36,7 +23,6 @@ customElements.define('p-modal', class extends LitElement {
       bottom: 0;
       background-color: #00000032;
       z-index: 1000;
-      
     }
     .modal-container {
       position: relative;
@@ -85,11 +71,11 @@ customElements.define('p-modal', class extends LitElement {
 
   constructor() {
     super();
-    this.opened = false
     this.focusableElements = []
     this.focusIndex = 0
-    this.hideOpenButton = false
     this.slotModalName = 'modalContent'
+    this.openedClassName = 'modal-wrapper--opened'
+    this.blockBodyClassName = 'p-block'
   }
 
   getSlottedByName(name = '') {
@@ -99,32 +85,23 @@ customElements.define('p-modal', class extends LitElement {
     return slot.assignedElements({flatten: true})
   }
 
-  firstUpdated() {
-    this.prevSibling = this.previousElementSibling
-    this.parent = this.parentElement
-  }
-
   blockHtml() {
-    document.documentElement.classList.add('p-block')
+    document.documentElement.classList.add(this.blockBodyClassName)
   }
 
   unblockHtml() {
-    document.documentElement.classList.remove('p-block')
+    document.documentElement.classList.remove(this.blockBodyClassName)
   }
 
   closeModal() {
-    this.opened = false
     this.unblockHtml()
-    this.cloneModal.replaceWith(this)
 
     this.dispatchEvent(new CustomEvent('closed', { detail: this.getSlottedByName(this.slotModalName) }))
-   
+    this.teleportModalBack()
+    this.modalContainer.classList.remove(this.openedClassName)
     this.clearState()
-    const openModalButton = this.getSlottedByName('openModal')[0]
 
-    if(openModalButton) {
-      openModalButton.focus()
-    }
+    this.openModalButton.focus()
   }
 
   clearState() {
@@ -179,41 +156,58 @@ customElements.define('p-modal', class extends LitElement {
     this.focusIndex = Number(target.dataset.focus)
   }
 
-  openModal() {
-    this.opened = true
-    this.blockHtml()
+  initFocusTrap() {
+    const closeButton = this.modalContainer.querySelector('.modal-close')
+    const modalContent = this.getSlottedByName(this.slotModalName)[0]
 
-    this.dispatchEvent(new CustomEvent('opened', { detail: this.getSlottedByName(this.slotModalName) }))
-
-    const closeButton = this.shadowRoot.querySelector('.modal-close')
-    const modalContainer = this.getSlottedByName(this.slotModalName)[0]
-
-    this.focusableElements = [...modalContainer.querySelectorAll('*')].filter(element => element.tabIndex >= 0)
     this.firstFocusableElement = closeButton
+    this.focusableElements = [...modalContent.querySelectorAll('*')].filter(element => element.tabIndex >= 0)
     this.lastFocusableElement = this.focusableElements[this.focusableElements.length - 1]
     this.focusableElements = [this.firstFocusableElement, ...this.focusableElements]
-
+    
     this.focusableElements.forEach((element, index) => {
       element.setAttribute('data-focus', index)
       element.addEventListener('focus', this.handleFocus)
     })
 
     this.addEventListener('keydown', this.isolateFocus)
+    this.focusableElements[0] && this.focusableElements[0].focus()
+  }
 
-    this.cloneModal = this.cloneNode(true)
+  openModal() {
+    this.blockHtml()
+    this.createOpenModalClone()
 
-    if(this.prevSibling) {
-      this.prevSibling.after(this.cloneModal)
-    } else {
-      this.parent.append(this.cloneModal)
-    }
+    this.modalContainer = this.shadowRoot.querySelector('.modal-wrapper')
+
+    this.dispatchEvent(new CustomEvent('opened', { detail: this.modalContainer }))
+
+    this.teleportModalToBodyEnd()
+    
+    this.modalContainer.classList.add(this.openedClassName)
+    this.initFocusTrap()
+  }
+
+  createOpenModalClone() {
+    this.openModalButton = this.getSlottedByName('openModal')[0]
+    this.cloneOpenModalButton = this.openModalButton.cloneNode(true)
+  }
+
+  teleportModalToBodyEnd() {
+    this.openModalButton.hidden = true
+    this.after(this.cloneOpenModalButton)
 
     document.body.append(this)
   }
 
+  teleportModalBack() {
+    this.cloneOpenModalButton.replaceWith(this)
+    this.openModalButton.hidden = false
+  }
+
   render() {
     return html`
-      ${this.hideOpenButton ? '' : this.openButton}
+      <slot @click='${this.openModal}' name='openModal'></slot>
       <div class="modal-wrapper">
         <div @click=${this.closeModal} class="modal-overlay"></div>
         <div class="modal-container ${this.hideCloseButton ? 'noButton' : ''}"  part='container'>

@@ -220,11 +220,7 @@ __Styles__
 There is a focus trap in this component for more a11y.
 The modal adds to the root html element class `p-block` after opening. You can add blocking styles to your css code if you want. Like `html.p-block { overflow: hidden }`.
 
-__Attributes__
-| attribute | description | default value |
-|--|--|--|
-| opened | you can use this attribute to control state of the modal component | false |
-| hideopenbutton | if you don't want display trigger button (for example, you add modal dynamically to the page from your code) | false |
+You can place this modal element to any DOM node and don't think about positions of parent nodes, their z-indexes. Script will teleport a modal content to the end of the `body`.
 
 __Events__
 | event | description | return |
@@ -239,11 +235,11 @@ __Parts__
 
 ```html
 <p-modal>
-  <button slot="openModal">open</button> <!-- your own button to open a modal -->
+  <!-- your own button to open a modal -->
+  <button slot="openModal">open</button> 
 
   <!-- place for the modal content -->
-  <!-- set attribute 'hidden' to prevent rendering elements before init web-component -->
-  <div hidden slot="modalContent" class="slotted"> 
+  <div slot="modalContent" class="slotted"> 
     <form>
       <input type="text" name="name">
       <input type="text" name="lastname">
