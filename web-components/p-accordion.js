@@ -24,7 +24,7 @@ customElements.define('p-accordion', class extends LitElement {
       border-bottom-left-radius: .3rem;
       border-bottom-right-radius: .3rem;
     }
-    [p-trigger].show + [p-content] {
+    [p-trigger].p-show + [p-content] {
       display: block;
       background-color: #eee;
     }
