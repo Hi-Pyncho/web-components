@@ -13,6 +13,7 @@
   - [Accordion](#accordion)
   - [Tabs](#tabs)
   - [Form](#form)
+  - [Infinite marquee](#infinite-marquee)
 
 ___
 
@@ -452,4 +453,27 @@ __Attributes (field tag) - all required__
       <input type="submit" value="confirm">
     </form>
   </p-form>
+```
+
+### Infinite marquee
+[Interactive example](https://codepen.io/Pyncho/pen/RwBLJQK)  
+
+
+[Path to component code](./web-components/p-infinite-marquee.js)
+
+__Attributes (main tag)__
+| attribute | description | default value |
+|--|--|--|
+| acceleration | moving marquee speed | 1 |
+| gap | distance between elements | 20 |
+| direction | move direction `toRight|toLeft` | toLeft |
+| fps | framerate | 60 |
+
+__IMPORTANT!__
+If you past an image to marquee component, set width and height to this image. To prevent layout shift.
+
+```html
+<p-infinite-marquee fps="30" acceleration="3" direction="toRight">
+  <p slot="content">Lorem ipsum dolor sit amet.</p>
+</p-infinite-marquee>
 ```
