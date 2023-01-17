@@ -461,7 +461,7 @@ __Attributes (field tag) - all required__
 
 [Path to component code](./web-components/p-infinite-marquee.js)
 
-__Attributes (main tag)__
+__Attributes__
 | attribute | description | default value |
 |--|--|--|
 | acceleration | moving marquee speed | 1 |
