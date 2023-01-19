@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@2/core/lit-core.min.js';
+// DOCS: https://github.com/Hi-Pyncho/web-components#infinite-marquee
 
 customElements.define('p-infinite-marquee', class extends LitElement {
   static properties = {
