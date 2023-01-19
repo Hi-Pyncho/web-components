@@ -8,6 +8,7 @@
   - [Other information](#other-information)
 - [Components](#components)
   - [Select](#select)
+  - [Multiple select](#multiple-select)
   - [Modal](#modal)
   - [Loader](#loader)
   - [Accordion](#accordion)
@@ -211,6 +212,40 @@ __Styles__
 | --font-size | font size of all elements | 1rem |
 | --top-list-offset | top list offset from top of a trigger element | 3rem |
 
+
+### Multiple select
+[Interactive example](https://codepen.io/Pyncho/pen/QWBOXEZ)  
+
+
+[Path to component code](./web-components/p-multiple-select.js)
+
+__Attributes__
+| attribute | description | default value |
+|--|--|--|
+| nostyle | remove default styles and add an opportunity to style tabs by own | false |
+| delimiter | character to concatenate multiple values | ',' |
+
+```html
+<p-multiple-select delimiter="|">
+  <select name="select" slot="select">
+    <option selected value="1">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sapiente quos sequi?
+    </option>
+    <option selected value="2">
+      Lorem ipsum dolor sit amet.
+    </option>
+    <option disabled value="3">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis repellat asperiores vel aliquam quis, exercitationem itaque! Earum nulla a eius!
+    </option>
+    <option value="4">
+      four
+    </option>
+    <option value="5">
+      five
+    </option>
+  </select>
+</p-multiple-select>
+```
 
 ### Modal
 [Interactive example](https://codepen.io/Pyncho/pen/jOKbmvx)  
