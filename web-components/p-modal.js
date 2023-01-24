@@ -14,6 +14,7 @@ customElements.define('p-modal', class extends LitElement {
     }
     .modal-wrapper--opened {
       display: grid;
+      z-index: 10000;
     }
     .modal-overlay {
       position: fixed;
