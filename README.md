@@ -418,7 +418,7 @@ __Attributes (main tag)__
 |--|--|--|
 | successtext (__required__) | text that will appear when the form will be successfully validated and send data to the server | '' |
 | failtext (__required__) | text that will appear when the form will not send data to the server | '' |
-| backendhandler (__required__) | path to form handler on the server | '' |
+| backendhandler (__required__) | path to form handler on the server [look note 1](#form-note-1) | '' |
 | beforesendcallback (__optional__) | custom callback to additionally validate form before data will be sended to the server (callback must return `false` or `true` and `IMPORTANT` - this function must be available globally from `window` object) | '' |
 
 __Attributes (field tag) - all required__
@@ -428,11 +428,55 @@ __Attributes (field tag) - all required__
 | [data-type](#validation-types) | types to validate a field value in different way |
 | data-errormessage | the message that set to a parent `label` tag property `data-error` (see examples link above how to stylize it)  |
 
+__Events__
+| event | description | return |
+|--|--|--|
+| afterSuccessValidation [example](#form-note-3) | triggered when form validation is succeeded | object reference [look note 2](#form-note-2) |
+
 #### Validation types:
 - `text` (check if a field value is empty)
 - `tel` (check if a phone value is numbers and consists of 11 numbers)
 - `email` (check if a email value fits the pattern)
 - `checkbox` (check if a checkbox is checked)
+
+
+##### Form note 1 
+Backend handler have to return json object with `answer` property (`success|fail`):
+```json
+{
+  "answer": "success",
+  // other your props
+}
+```
+
+##### Form note 2 
+Object reference with fields:
+```js
+{
+  form: this.form, // reference to the current form
+  customConfirmation: null, // custom confirmation function when data is sended
+  customControl: false // prevent default sending data and confirmation
+}
+```
+##### Form note 3 
+Event catching example:
+```html
+<p-form>
+  <form class='myForm'>
+   <!-- fields -->
+  </form>
+</p-form>
+<script>
+  const form = document.querySelector('myForm')
+
+  form.addEventListener('afterSuccessValidation', (event) => {
+    event.detail.customControl = true // now you are control this form
+    event.detail.customConfirmation = () => {
+      // your confirmation logic
+    }
+  })
+</script>
+```
 
 `IMPORTANT!` - any input field must be wrapped by `label` tag to validate fields properly.
 

@@ -70,7 +70,7 @@ class Validator {
 }
 
 class Form {
-  constructor({form, fields, errorContainerClass, formWrapper, successText, failText, backendHandler, beforeSendCallback = function() {return true}}) {
+  constructor({form, fields, errorContainerClass, formWrapper, successText, failText, backendHandler}) {
     this.form = form
     this.fields = fields,
     this.errorContainerClass = errorContainerClass
@@ -79,7 +79,11 @@ class Form {
     this.failText = failText
     this.backendHandler = backendHandler
     this.validator = new Validator('p')
-    this.beforeSendCallback = beforeSendCallback
+    this.detail = {
+      form: this.form,
+      customConfirmation: null,
+      customControl: false
+    }
   }
 
   addFormListener() {
@@ -154,9 +158,14 @@ class Form {
     event.preventDefault()
 
     const isFormValid = this.validateAllInputs()
-    const cbResult = window[this.beforeSendCallback] ? window[this.beforeSendCallback](this.form) : true
     
-    if(!isFormValid || !cbResult) return
+    if(!isFormValid) return
+
+    this.form.dispatchEvent(new CustomEvent('afterSuccessValidation', {
+      detail: this.detail
+    }))
+    
+    if(this.detail.customControl) return
 
     let result
 
@@ -164,14 +173,19 @@ class Form {
       result = await this.sendData()
     } catch (error) {
       this.form.replaceWith(this.createResultMessage(this.failText))
+      return
     }
 
     if(result && result.answer === 'success') {
       this.form.replaceWith(this.createResultMessage(this.successText))
       return
     }
-
-    this.form.replaceWith(this.createResultMessage(this.failText))
+ 
+    if(this.detail.customConfirmation) {
+      this.detail.customConfirmation()
+    } else {
+      this.form.replaceWith(this.createResultMessage(this.failText))
+    }
   }
 
   async sendData() {
@@ -197,7 +211,6 @@ customElements.define('p-form', class extends LitElement {
     successText: String,
     failText: String,
     backendHandler: String,
-    beforeSendCallback: String,
   }
 
   constructor() {
@@ -205,7 +218,6 @@ customElements.define('p-form', class extends LitElement {
     this.successText = ''
     this.failText = ''
     this.backendHandler = ''
-    this.beforeSendCallback = ''
   }
 
   firstUpdated() {
@@ -231,7 +243,6 @@ customElements.define('p-form', class extends LitElement {
       'successText': this.successText,
       'failText': this.failText,
       'backendHandler': this.backendHandler,
-      'beforeSendCallback': this.beforeSendCallback,
     })
 
     formInstance.init()
