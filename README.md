@@ -419,7 +419,6 @@ __Attributes (main tag)__
 | successtext (__required__) | text that will appear when the form will be successfully validated and send data to the server | '' |
 | failtext (__required__) | text that will appear when the form will not send data to the server | '' |
 | backendhandler (__required__) | path to form handler on the server [look note 1](#form-note-1) | '' |
-| beforesendcallback (__optional__) | custom callback to additionally validate form before data will be sended to the server (callback must return `false` or `true` and `IMPORTANT` - this function must be available globally from `window` object) | '' |
 
 __Attributes (field tag) - all required__
 | attribute | description |
@@ -467,7 +466,7 @@ Event catching example:
   </form>
 </p-form>
 <script>
-  const form = document.querySelector('myForm')
+  const form = document.querySelector('.myForm')
 
   form.addEventListener('afterSuccessValidation', (event) => {
     event.detail.customControl = true // now you are control this form
