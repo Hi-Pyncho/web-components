@@ -418,7 +418,7 @@ __Attributes (main tag)__
 |--|--|--|
 | successtext (__required__) | text that will appear when the form will be successfully validated and send data to the server | '' |
 | failtext (__required__) | text that will appear when the form will not send data to the server | '' |
-| backendhandler (__required__) | path to form handler on the server [look note 1](#form-note-1) | '' |
+| backendhandler | path to form handler on the server [look note 1](#form-note-1) | '' |
 
 __Attributes (field tag) - all required__
 | attribute | description |
@@ -446,6 +446,8 @@ Backend handler have to return json object with `answer` property (`success|fail
   "answer": "success",
   // other your props
 }
+
+If backend handler didn't specified you can handle `afterSuccessValidation` event and make your custom form handler.
 ```
 
 ##### Form note 2 
@@ -454,7 +456,6 @@ Object reference with fields:
 {
   form: this.form, // reference to the current form
   customConfirmation: null, // custom confirmation function when data is sended
-  customControl: false // prevent default sending data and confirmation
 }
 ```
 ##### Form note 3 
@@ -469,7 +470,6 @@ Event catching example:
   const form = document.querySelector('.myForm')
 
   form.addEventListener('afterSuccessValidation', (event) => {
-    event.detail.customControl = true // now you are control this form
     event.detail.customConfirmation = () => {
       // your confirmation logic
     }
