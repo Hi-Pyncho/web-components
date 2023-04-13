@@ -82,7 +82,6 @@ class Form {
     this.detail = {
       form: this.form,
       customConfirmation: null,
-      customControl: false
     }
   }
 
@@ -165,20 +164,20 @@ class Form {
       detail: this.detail
     }))
     
-    if(this.detail.customControl) return
-
-    let result
-
-    try {
-      result = await this.sendData()
-    } catch (error) {
-      this.form.replaceWith(this.createResultMessage(this.failText))
-      return
-    }
-
-    if(result && result.answer === 'success') {
-      this.form.replaceWith(this.createResultMessage(this.successText))
-      return
+    if(this.backendHandler !== '') {
+      let result
+  
+      try {
+        result = await this.sendData()
+      } catch (error) {
+        this.form.replaceWith(this.createResultMessage(this.failText))
+        return
+      }
+  
+      if(result && result.answer === 'success') {
+        this.form.replaceWith(this.createResultMessage(this.successText))
+        return
+      }
     }
  
     if(this.detail.customConfirmation) {
