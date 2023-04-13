@@ -81,7 +81,6 @@ class Form {
     this.validator = new Validator('p')
     this.detail = {
       form: this.form,
-      customConfirmation: null,
     }
   }
 
@@ -164,26 +163,20 @@ class Form {
       detail: this.detail
     }))
     
-    if(this.backendHandler !== '') {
-      let result
-  
-      try {
-        result = await this.sendData()
-      } catch (error) {
-        this.form.replaceWith(this.createResultMessage(this.failText))
-        return
-      }
-  
-      if(result && result.answer === 'success') {
-        this.form.replaceWith(this.createResultMessage(this.successText))
-        return
-      }
-    }
- 
-    if(this.detail.customConfirmation) {
-      this.detail.customConfirmation()
-    } else {
+    if(this.backendHandler === '') return
+
+    let result
+
+    try {
+      result = await this.sendData()
+    } catch (error) {
       this.form.replaceWith(this.createResultMessage(this.failText))
+      return
+    }
+
+    if(result && result.answer === 'success') {
+      this.form.replaceWith(this.createResultMessage(this.successText))
+      return
     }
   }
 
