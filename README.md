@@ -455,7 +455,6 @@ Object reference with fields:
 ```js
 {
   form: this.form, // reference to the current form
-  customConfirmation: null, // custom confirmation function when data is sended
 }
 ```
 ##### Form note 3 
@@ -470,9 +469,7 @@ Event catching example:
   const form = document.querySelector('.myForm')
 
   form.addEventListener('afterSuccessValidation', (event) => {
-    event.detail.customConfirmation = () => {
-      // your confirmation logic
-    }
+    // if backend handler is empty, there will be your form handler logic
   })
 </script>
 ```
